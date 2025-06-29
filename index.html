@@ -332,7 +332,7 @@
       infoForm.style.display = 'flex';
     });
 
-    infoForm.addEventListener('submit', async (e) => {
+    infoForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       let valid = true;
@@ -370,23 +370,6 @@
       }
 
       if (!valid) return;
-
-      // Google Sheets gönderimi
-      try {
-        await fetch('https://script.google.com/macros/s/AKfycbypbZ9_Urz_S9gWl7bOtpp9vB5pbV1vWzdqFejjDl8L2VbeK7pG77sQImbMpWqOWdbPuA/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: nameVal,
-            age: ageVal,
-            instagram: instaVal,
-            phone: phoneVal
-          })
-        });
-      } catch (error) {
-        console.error('Google Sheets gönderim hatası:', error);
-        // Burada istersen kullanıcıya hata mesajı gösterebilirsin ama ben sessizce geçiyorum.
-      }
 
       infoForm.style.display = 'none';
       thanksMessage.style.display = 'block';
