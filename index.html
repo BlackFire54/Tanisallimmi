@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selam, Tanışalım mı?</title>
+  <style>
+    body {
+      background: #ffe6f0;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #3a3a3a;
+    }
+    #header {
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    #emojiFace {
+      font-size: 80px;
+      user-select: none;
+      margin-bottom: 8px;
+    }
+    #header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin: 0;
+      color: #d63384;
+    }
+    #buttonContainer {
+      position: relative;
+      width: 320px;
+      height: 180px;
+      margin-bottom: 30px;
+    }
+    button {
+      position: absolute;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.2s ease;
+      min-width: 100px;
+      z-index: 2;
+    }
+    #yesBtn {
+      background-color: #28a745;
+      top: 30px;
+      left: 30px;
+    }
+    #noBtn {
+      background-color: #dc3545;
+      top: 30px;
+      left: 180px;
+    }
+    #handIcon {
+      position: absolute;
+      font-size: 32px;
+      user-select: none;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 3;
+    }
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      width: 320px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    label {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 4px;
+      display: block;
+      color: #555;
+    }
+    input {
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #555;
+    }
+    .error-message {
+      color: #dc3545;
+      font-size: 13px;
+      margin-top: 3px;
+      display: none;
+    }
+    #submitBtn {
+      position: static;
+      margin-top: 15px;
+      padding: 14px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      user-select: none;
+    }
+    #thanksMessage {
+      display: none;
+      font-size: 1.5rem;
+      color: #d63384;
+      margin-bottom: 20px;
+    }
+    #resultsContainer {
+      display: none;
+      max-width: 320px;
+      margin: 20px auto 15px auto;
+      padding: 15px 20px;
+      background: #fff0f6;
+      border: 2px solid #d63384;
+      border-radius: 14px;
+      color: #4a1a3a;
+      font-size: 1.1rem;
+      white-space: pre-line;
+      text-align: left;
+    }
+    #showResultsBtn {
+      display: none;
+      position: static;
+      margin-bottom: 20px;
+      padding: 12px 24px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+    }
+    #passwordSection {
+      display: none;
+      flex-direction: column;
+      max-width: 320px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    #passwordInput {
+      padding: 10px 14px;
+      padding-right: 35px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #passwordError {
+      color: #dc3545;
+      font-size: 13px;
+      display: none;
+      margin-top: 6px;
+    }
+    #passwordSubmitBtn {
+      padding: 8px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 8px;
+      width: auto;
+      display: inline-block;
+      position: static;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div id="emojiFace">🙂</div>
+    <h1>Selam!<br>Tanışalım mı?</h1>
+  </div>
+
+  <div id="buttonContainer">
+    <button id="yesBtn">Evet</button>
+    <button id="noBtn">Hayır</button>
+    <div id="handIcon">✋</div>
+  </div>
+
+  <form id="infoForm" novalidate>
+    <label for="nameInput">İsminiz (zorunlu)</label>
+    <input type="text" id="nameInput" />
+    <div class="error-message" id="nameError">Bu alanı doldurmadın güzelim</div>
+
+    <label for="ageInput">Yaşınız (zorunlu)</label>
+    <input type="number" id="ageInput" />
+    <div class="error-message" id="ageError">Bu alanı doldurmadın güzelim</div>
+
+    <label for="instaInput">Instagramınız (zorunlu)</label>
+    <input type="text" id="instaInput" />
+    <div class="error-message" id="instaError">Bu alanı doldurmadın güzelim</div>
+
+    <label for="phoneInput">Telefon numaranız (opsiyonel)</label>
+    <input type="tel" id="phoneInput" />
+    <div class="error-message" id="phoneError">Telefon numaranız geçerli değil. Lütfen doğru formatta girin.</div>
+
+    <button type="submit" id="submitBtn">Onayla</button>
+  </form>
+
+  <div id="thanksMessage">Teşekkürler!</div>
+
+  <button id="showResultsBtn">Sonuçları Göster</button>
+
+  <div id="passwordSection">
+    <label for="passwordInput">Kod sahibi şifresini girin:</label>
+    <div class="password-wrapper">
+      <input type="password" id="passwordInput" placeholder="Şifreyi girin" />
+      <span class="toggle-password" id="togglePassword">👁️</span>
+    </div>
+    <div id="passwordError">Üzgünüm, girdiğiniz şifre yanlıştı.</div>
+    <button id="passwordSubmitBtn">Onayla</button>
+  </div>
+
+  <div id="resultsContainer"></div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const handIcon = document.getElementById('handIcon');
+    const emojiFace = document.getElementById('emojiFace');
+    const buttonContainer = document.getElementById('buttonContainer');
+
+    const infoForm = document.getElementById('infoForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const thanksMessage = document.getElementById('thanksMessage');
+    const showResultsBtn = document.getElementById('showResultsBtn');
+    const resultsContainer = document.getElementById('resultsContainer');
+
+    const passwordSection = document.getElementById('passwordSection');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordError = document.getElementById('passwordError');
+    const passwordSubmitBtn = document.getElementById('passwordSubmitBtn');
+    const togglePassword = document.getElementById('togglePassword');
+
+    const nameInput = document.getElementById('nameInput');
+    const ageInput = document.getElementById('ageInput');
+    const instaInput = document.getElementById('instaInput');
+    const phoneInput = document.getElementById('phoneInput');
+
+    const nameError = document.getElementById('nameError');
+    const ageError = document.getElementById('ageError');
+    const instaError = document.getElementById('instaError');
+    const phoneError = document.getElementById('phoneError');
+
+    const moods = ['🙂', '😊', '😐', '😠', '😡'];
+    let moodIndex = 0;
+    let moveCount = 0;
+
+    function moveNoButton() {
+      const containerRect = buttonContainer.getBoundingClientRect();
+      const yesRect = yesBtn.getBoundingClientRect();
+      const maxX = containerRect.width - noBtn.offsetWidth;
+      const maxY = containerRect.height - noBtn.offsetHeight;
+
+      let newX, newY, overlap;
+
+      do {
+        newX = Math.random() * maxX;
+        newY = Math.random() * maxY;
+
+        const noLeftGlobal = containerRect.left + newX;
+        const noTopGlobal = containerRect.top + newY;
+
+        overlap =
+          noLeftGlobal < yesRect.right &&
+          noLeftGlobal + noBtn.offsetWidth > yesRect.left &&
+          noTopGlobal < yesRect.bottom &&
+          noTopGlobal + noBtn.offsetHeight > yesRect.top;
+      } while (overlap);
+
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+
+      moveCount++;
+      if (moveCount % 3 === 0 && moodIndex < moods.length - 1) {
+        moodIndex++;
+        emojiFace.textContent = moods[moodIndex];
+      }
+
+      if (moodIndex === moods.length - 1) {
+        setTimeout(() => {
+          const noRect = noBtn.getBoundingClientRect();
+          const containerRect = buttonContainer.getBoundingClientRect();
+          const centerX = noRect.left - containerRect.left + noRect.width / 2;
+          const centerY = noRect.top - containerRect.top + noRect.height / 2;
+          handIcon.style.left = `${centerX}px`;
+          handIcon.style.top = `${centerY}px`;
+          handIcon.style.display = 'block';
+        }, 400);
+      } else {
+        handIcon.style.display = 'none';
+      }
+    }
+
+    noBtn.addEventListener('mouseenter', () => {
+      if (moodIndex < moods.length - 1) moveNoButton();
+    });
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (moodIndex < moods.length - 1) moveNoButton();
+    });
+
+    yesBtn.addEventListener('click', () => {
+      emojiFace.style.display = 'none';
+      buttonContainer.style.display = 'none';
+      infoForm.style.display = 'flex';
+    });
+
+    infoForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      let valid = true;
+      [nameError, ageError, instaError, phoneError].forEach(e => e.style.display = 'none');
+
+      const nameVal = nameInput.value.trim();
+      const ageVal = ageInput.value.trim();
+      const instaVal = instaInput.value.trim();
+      const phoneVal = phoneInput.value.trim().replace(/\s/g, '');
+
+      if (!nameVal) {
+        nameError.style.display = 'block';
+        valid = false;
+      }
+
+      if (!ageVal || isNaN(ageVal) || ageVal <= 0 || ageVal > 50) {
+        ageError.textContent = ageVal > 50 ? 'Lütfen geçerli bir yaş girin (50 veya altı).' : 'Bu alanı doldurmadın güzelim';
+        ageError.style.display = 'block';
+        valid = false;
+      }
+
+      if (!instaVal) {
+        instaError.style.display = 'block';
+        valid = false;
+      }
+
+      if (phoneVal) {
+        const startsWithZero = phoneVal.startsWith('0');
+        const expectedLength = startsWithZero ? 11 : 10;
+        if (phoneVal.length !== expectedLength || !/^\d+$/.test(phoneVal)) {
+          phoneError.textContent = `Telefon numaranız geçerli değil. Lütfen ${expectedLength} haneli rakam girin.`;
+          phoneError.style.display = 'block';
+          valid = false;
+        }
+      }
+
+      if (!valid) return;
+
+      // Google Sheets gönderimi
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbw9PkDE0t0Y4938LQ65nY4z0Wl8Txndk3_R86GKValz08iZTJttLeDHdk8ws6UGJLvgFw/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: nameVal,
+            age: ageVal,
+            instagram: instaVal,
+            phone: phoneVal
+          })
+        });
+      } catch (error) {
+        console.error('Google Sheets gönderim hatası:', error);
+        // Burada istersen kullanıcıya hata mesajı gösterebilirsin ama ben sessizce geçiyorum.
+      }
+
+      infoForm.style.display = 'none';
+      thanksMessage.style.display = 'block';
+      showResultsBtn.style.display = 'inline-block';
+    });
+
+    showResultsBtn.addEventListener('click', () => {
+      showResultsBtn.style.display = 'none';
+      passwordSection.style.display = 'flex';
+      passwordError.style.display = 'none';
+      passwordInput.value = '';
+      passwordInput.focus();
+    });
+
+    passwordSubmitBtn.addEventListener('click', () => {
+      const enteredPassword = passwordInput.value.trim();
+      if (enteredPassword === 'asd123321') {
+        passwordSection.style.display = 'none';
+
+        const name = nameInput.value.trim();
+        const age = ageInput.value.trim();
+        const insta = instaInput.value.trim();
+        const phone = phoneInput.value.trim();
+
+        let text = `İsim: ${name}\nYaş: ${age}\nInstagram: ${insta}`;
+        if (phone) text += `\nTelefon: ${phone}`;
+
+        resultsContainer.textContent = text;
+        resultsContainer.style.display = 'block';
+      } else {
+        passwordError.style.display = 'block';
+      }
+    });
+
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+    });
+  </script>
+</body>
+</html>
