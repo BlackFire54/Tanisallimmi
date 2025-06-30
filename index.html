@@ -348,8 +348,8 @@
         valid = false;
       }
 
-      if (!ageVal || isNaN(ageVal) || ageVal <= 0 || ageVal > 50) {
-        ageError.textContent = ageVal > 50 ? 'Lütfen geçerli bir yaş girin (50 veya altı).' : 'Bu alanı doldurmadın güzelim';
+      if (!ageVal || isNaN(ageVal) || ageVal <= 10 || ageVal > 45) {
+        ageError.textContent = ageVal > 50 ? 'Lütfen geçerli bir yaş girin.' : 'Bu alanı doldurmadın güzelim.';
         ageError.style.display = 'block';
         valid = false;
       }
