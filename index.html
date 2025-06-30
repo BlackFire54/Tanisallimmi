@@ -332,7 +332,7 @@
       infoForm.style.display = 'flex';
     });
 
-    infoForm.addEventListener('submit', (e) => {
+    infoForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       let valid = true;
@@ -348,8 +348,8 @@
         valid = false;
       }
 
-      if (!ageVal || isNaN(ageVal) || ageVal <= 0 || ageVal > 45) {
-        ageError.textContent = ageVal > 45 ? 'Lütfen geçerli bir yaş girin.' : 'Bu alanı doldurmadın güzelim.';
+      if (!ageVal || isNaN(ageVal) || ageVal <= 0 || ageVal > 50) {
+        ageError.textContent = ageVal > 50 ? 'Lütfen geçerli bir yaş girin (50 veya altı).' : 'Bu alanı doldurmadın güzelim';
         ageError.style.display = 'block';
         valid = false;
       }
@@ -371,6 +371,23 @@
 
       if (!valid) return;
 
+      // Google Sheets gönderimi
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbw9PkDE0t0Y4938LQ65nY4z0Wl8Txndk3_R86GKValz08iZTJttLeDHdk8ws6UGJLvgFw/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: nameVal,
+            age: ageVal,
+            instagram: instaVal,
+            phone: phoneVal
+          })
+        });
+      } catch (error) {
+        console.error('Google Sheets gönderim hatası:', error);
+        // Burada istersen kullanıcıya hata mesajı gösterebilirsin ama ben sessizce geçiyorum.
+      }
+
       infoForm.style.display = 'none';
       thanksMessage.style.display = 'block';
       showResultsBtn.style.display = 'inline-block';
@@ -386,7 +403,7 @@
 
     passwordSubmitBtn.addEventListener('click', () => {
       const enteredPassword = passwordInput.value.trim();
-      if (enteredPassword === 'asd123123') {
+      if (enteredPassword === 'asd123321') {
         passwordSection.style.display = 'none';
 
         const name = nameInput.value.trim();
